@@ -1,14 +1,36 @@
+var key = "d519fa01ace714bcde242c59a4f9e591";
+var url = `https://api.openweathermap.org/data/2.5/forecast?q=Boston&appid=${key}`
+
+
+
+$.ajax({
+  url: url,
+  method: 'GET',
+}).then (function (response) {
+  console.log(response);
+
+  var currentCity = response.city.name
+  console.log(currentCity);
+
+});
+
+var inputElement = $("input-field");
+var cities = [];
+
+inputElement.keypress(function(e) {
+  alert("You pressed enter!");
+})
+
 function renderButtons() {
-    // Deletes the cvities prior to adding new cities
+    // Deletes the cities prior to adding new cities
     // 
     $('#buttons-view').empty();
 
-    // Loops through the array of movies
-    for (var i = 0; i < movies.length; i++) {
-      // Then dynamicaly generates buttons for each movie in the array
-      // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-      var a = $('<button>');
-      // Adds a class of movie to our button
+    // Loops through the array of cities
+    for (var i = 0; i < cities.length; i++) {
+      // Then dynamicaly generates buttons for each city in the array
+      var a = $('<a>');
+      // Adds a class of city to our button
       a.addClass('movie');
       // Added a data-attribute
       a.attr('data-name', movies[i]);
