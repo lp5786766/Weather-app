@@ -1,7 +1,6 @@
+// Weather API request
 var key = "d519fa01ace714bcde242c59a4f9e591";
 var url = `https://api.openweathermap.org/data/2.5/forecast?q=Boston&appid=${key}`
-
-
 
 $.ajax({
   url: url,
@@ -14,12 +13,13 @@ $.ajax({
 
 });
 
-var inputElement = $("input-field");
+var inputElement = $("#city-input");
+var searchBtn = $(".btn");
 var cities = [];
 
-inputElement.keypress(function(e) {
-  alert("You pressed enter!");
-})
+searchBtn.on("click", function() {
+  console.log(inputElement.val())
+});
 
 function renderButtons() {
     // Deletes the cities prior to adding new cities
