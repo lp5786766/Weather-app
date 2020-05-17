@@ -12,10 +12,9 @@ var mainUV = $("#uv-one");
 
 searchBtn.on("click", function() {
   city = inputElement.val().trim();
-  saveCities();
-  renderButtons();
   
-  getWeather();
+  renderButtons();
+  getFutureWeather();
 });
 
 function saveCities() {
@@ -24,16 +23,17 @@ function saveCities() {
     cities = [];
 }
   cities.push(city);
-  console.log(cities)
   console.log(city)
   
   
-  
-  
   localStorage.setItem("cities", JSON.stringify(cities));
+  console.log(cities)
 }
 
 function renderButtons() {
+  var cities = JSON.parse(localStorage.getItem("cities"));
+  
+  saveCities();
   // clear the cities before adding new
   $('#buttons-view').empty();
   for (var i = 0; i < cities.length; i++) {
@@ -55,10 +55,27 @@ function renderButtons() {
   }
 }
 
-function getWeather() {
+function getFutureWeather() {
   // Weather API request
   var key = "d519fa01ace714bcde242c59a4f9e591";
   var url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}`
+
+  $.ajax({
+    url: url,
+    method: 'GET',
+  }).then (function (response) {
+    console.log(response);
+    var currentCity = response.city.name
+    
+    //create 5 cards
+
+  });
+}
+
+function getCurrentWeather() {
+  
+  var key = "d519fa01ace714bcde242c59a4f9e591";
+  var url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
 
   $.ajax({
     url: url,
@@ -71,9 +88,6 @@ function getWeather() {
     mainHeader.text(response.city.name);
     mainTemp.text("")
     
-    //create 5 cards
 
   });
-
-
 }
