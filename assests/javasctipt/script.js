@@ -2,7 +2,7 @@
 var searchBtn = $(".btn");
 var inputElement = $("#city-input");
 var city;
-var cities = [];
+var cities;
 // Weather Cards elements
 var mainHeader = $("#header-one");
 var mainTemp = $("#temp-one");
@@ -12,24 +12,39 @@ var mainUV = $("#uv-one");
 
 searchBtn.on("click", function() {
   city = inputElement.val().trim();
-  cities.push(city);
+  saveCities();
   renderButtons();
+  
   getWeather();
 });
 
+function saveCities() {
+  var cities = JSON.parse(localStorage.getItem("cities"));
+  if (cities == null) {
+    cities = [];
+}
+  cities.push(city);
+  console.log(cities)
+  console.log(city)
+  
+  
+  
+  
+  localStorage.setItem("cities", JSON.stringify(cities));
+}
 
 function renderButtons() {
-  // Deletes the cities prior to adding new cities
-  // 
+  // clear the cities before adding new
   $('#buttons-view').empty();
-  // Loops through the array of cities
   for (var i = 0; i < cities.length; i++) {
-    // Then dynamicaly generates buttons for each city in the array
+    // create a list element
     var a = $("<a>");
-    // Adds a class of city to our button
+    // add a class of the element
     a.addClass("collection-item waves-effect waves-light");
+
     // Added a data-attribute
-    a.attr("data-name", cities[i]);
+    // a.attr("data-name", cities[i]);
+
     // Provided the initial button text
     a.text(cities[i]);
     // Added the button to the buttons-view div
