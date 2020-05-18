@@ -102,9 +102,6 @@ function getFutureWeather() {
   });
 }
 
-
-
-
 function getCurrentWeather() {
   console.log(city);
   var key = "d519fa01ace714bcde242c59a4f9e591";
