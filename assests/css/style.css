@@ -23,3 +23,18 @@ p {
 #search-field {
     padding: 0px !important;
 }
+
+.moderate {
+    color: yellow;
+    font-weight: 600;
+}
+
+.low {
+    color: green;
+    font-weight: 600;
+}
+
+.high {
+    color: salmon;
+    font-weight: 600;
+}
