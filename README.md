@@ -7,7 +7,7 @@ https://lp5786766.github.io/Weather-app/
 Simple weather dashboard that is used to look up current and future (5 days) weather by city.
 
 ## Functionality
-![WeatherGif](assets/weather.gif)
+![WeatherGif](/assests/weather.gif)
 1. To start enter a city name in the search bar, click "search" icon.
 2. You are presented with a big card that displays current weather.
   2.1. The card displsays:
@@ -23,8 +23,8 @@ Simple weather dashboard that is used to look up current and future (5 days) wea
   4.2. You can also get weather result by clicking the the buttons.
   
 ## Libraries Used:
--[Materialize](https://materializecss.com/)
--[JQuery](http://code.jquery.com/)
--[Open Weather API](https://openweathermap.org/)
+- [Materialize](https://materializecss.com/)
+- [JQuery](http://code.jquery.com/)
+- [Open Weather API](https://openweathermap.org/)
 ## Credits
 -[Luba Pecheneva](https://github.com/lp5786766)
