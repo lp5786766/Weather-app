@@ -3,17 +3,13 @@ var searchBtn = $(".btn");
 var inputElement = $("#city-input");
 var city;
 var cities;
-// Weather Cards elements
+// Current Weather Card elements
 var mainHeader = $("#header-one");
 var mainIcon = $("#icon-one");
 var mainTemp = $("#temp-one");
 var mainHumid = $("#humid-one");
 var mainWind = $("#wind-one");
 var mainUV = $("#uv-one");
-
-
-renderButtons();
-
 
 
 searchBtn.on("click", function() {
@@ -23,7 +19,6 @@ searchBtn.on("click", function() {
   getCurrentWeather();
   getFutureWeather();  
 });
-
 
 function saveCities() {
   var cities = JSON.parse(localStorage.getItem("cities"));
@@ -37,32 +32,28 @@ function saveCities() {
 }
 
 function renderButtons() {
-  //get the saved list of cities from local storage
-  var cities = JSON.parse(localStorage.getItem("cities"));
-  // clear the cities before adding new
-  $('#buttons-view').empty();
-  for (var i = 0; i < cities.length; i++) {
-    // create a list element
-    var a = $("<a>");
-    // add a class of the element
-    a.addClass("collection-item waves-effect waves-light");
-    // add text - city name
-    a.text(cities[i]);
-    a.on("click", function() {
-      console.log(a[0].innerText);
-      var city = a[0].innerText;
-      console.log(city);
-      getCurrentWeather();
-      getFutureWeather();  
-    });
-    $("#buttons-view").prepend(a);
-
-    
-    //set a limit of 15 buttons **********************************!!!!!
-
+    //get the saved list of cities from local storage
+    var cities = JSON.parse(localStorage.getItem("cities"));
+    // clear the cities before adding new
+    $('#buttons-view').empty();
+    for (var i = 0; i < cities.length; i++) {
+      //create a list element
+      var a = $("<a>");
+      //add a class of the element
+      a.addClass("collection-item waves-effect waves-light");
+      //add text - city name
+      a.text(cities[i]);
+      //add click event to the saved cities:
+      a.on("click", function() {
+        console.log(a[0].innerText);
+        var city = a[0].innerText;
+        console.log(city);
+        getCurrentWeather();
+        getFutureWeather();  
+      });
+      $("#buttons-view").prepend(a);
+      //set a limit of 15 buttons **********************************!!!!!
   }
-  // add click event to the saved cities:
- 
 }
 
 function getFutureWeather() {
@@ -74,13 +65,45 @@ function getFutureWeather() {
     url: url,
     method: 'GET',
   }).then (function (response) {
-    // console.log(response);
-    // var currentCity = response.city.name
+    // i = [3, 11, 19, 27, 35];
+    console.log(response);
+    // var info = response.list;
     
+    createCard();
+    function createCard() {
+      var weatherView = $("#weather-view");
+    
+      var futureDate = $("<p>");
+      futureDate.text(response.list[27].dt_txt);
+      var futureHumid = $("<p>");
+      futureHumid.text("Humidity: " + response.list[27].main.humidity + "%");
+      var futureImg = $("<img>");
+      futureImg.attr("src", "http://openweathermap.org/img/wn/" + response.list[27].weather[0].icon + ".png");
+      var futureTemp = $("<p>");
+      futureTemp.text("Temp: " + Math.round(response.list[27].main.temp * 1.8 - 459.67) + "°F");
+    
+      var futureCard = $("<div>");
+      futureCard.attr("class", "card-content");
+      futureCard.append(futureDate);
+      futureCard.append(futureHumid);
+      futureCard.append(futureImg);
+      futureCard.append(futureTemp);
+
+      var fullCard = $("<div>");    
+      fullCard.attr("class", " col s12 m3 card blue-grey darken-1")
+      fullCard.append(futureCard)
+      weatherView.append(fullCard);
+      
+      
+    
+    }
     //create 5 cards
 
   });
 }
+
+
+
 
 function getCurrentWeather() {
   console.log(city);
@@ -91,7 +114,6 @@ function getCurrentWeather() {
     url: url,
     method: 'GET',
   }).then (function (response) {
-    console.log(response);
     var fTemp = Math.round(response.main.temp * 1.8 - 459.67);
     var cTemp = Math.round(response.main.temp - 273.15);
     // change HTML of the main card:
@@ -112,9 +134,7 @@ function getCurrentWeather() {
         url: uvurl,
         method: 'GET',
       }).then (function (response) {
-        console.log(response);
         mainUV.text("UV Index: " + response.value);
-
         if (response.value >= 0 && response.value <= 3) {
           mainUV.attr("class", "low");
         } else if (response.value >= 4 && response.value <= 7) {
@@ -122,14 +142,8 @@ function getCurrentWeather() {
         } else if (response.value >= 8 && response.value <= 11) {
           mainUV.attr("class", "high");
         }
-
       });
-    
-    
      }
-  });
-
-  
-  
+  });  
 }
  
