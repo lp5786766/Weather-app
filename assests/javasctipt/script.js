@@ -80,31 +80,29 @@ function getFutureWeather() {
       //loop over array of days and get only 12 pm responses
       for (var i = 5; i < futureCardsArr.length; i = i + 8) {
         console.log(i);
-      }
-      
-      var weatherView = $("#weather-view");
+        var weatherView = $("#weather-view");
     
       var futureDate = $("<p>");
-      futureDate.text(response.list[27].dt_txt);
+      futureDate.text(moment(response.list[i].dt_txt).format("MM/D/YY"));
       var futureHumid = $("<p>");
-      futureHumid.text("Humidity: " + response.list[27].main.humidity + "%");
+      futureHumid.text("Humidity: " + response.list[i].main.humidity + "%");
       var futureImg = $("<img>");
-      futureImg.attr("src", "http://openweathermap.org/img/wn/" + response.list[27].weather[0].icon + ".png");
+      futureImg.attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
       var futureTemp = $("<p>");
-      futureTemp.text("Temp: " + Math.round(response.list[27].main.temp * 1.8 - 459.67) + "°F");
+      futureTemp.text("Temp: " + Math.round(response.list[i].main.temp * 1.8 - 459.67) + "°F");
     
-      var futureCard = $("<div>");
-      futureCard.attr("class", "card-content");
-      futureCard.append(futureDate);
-      futureCard.append(futureHumid);
-      futureCard.append(futureImg);
-      futureCard.append(futureTemp);
+      var futureCardCont = $("<div>");
+      futureCardCont.attr("class", "card-content");
+      futureCardCont.append(futureDate, futureHumid, futureImg, futureTemp);
+      // futureCard.append(futureHumid);
+      // futureCard.append(futureImg);
+      // futureCard.append(futureTemp);
 
       var fullCard = $("<div>");    
-      fullCard.attr("class", " col s12 m3 card blue-grey darken-1")
-      fullCard.append(futureCard)
+      fullCard.attr("class", " col s12 m2 card blue-grey darken-1")
+      fullCard.append(futureCardCont)
       weatherView.append(fullCard);
-      
+      }
       
     
     }
@@ -122,10 +120,11 @@ function getCurrentWeather() {
     url: url,
     method: 'GET',
   }).then (function (response) {
+    console.log(response)
     var fTemp = Math.round(response.main.temp * 1.8 - 459.67);
     var cTemp = Math.round(response.main.temp - 273.15);
     // change HTML of the main card:
-    mainHeader.text(response.name);
+    mainHeader.text(response.name + " " + moment().format("MM/D/YY"));
     mainIcon.attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon + ".png")
     mainTemp.text("Temperature: " + fTemp + "°F / " + cTemp + "°C") // add celcius
     mainHumid.text("Humidity: " + response.main.humidity +"%")
