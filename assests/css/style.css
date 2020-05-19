@@ -1,5 +1,7 @@
 p {
     color: white;
+   
+
 }
 
 /* Input and search button */
@@ -33,4 +35,17 @@ p {
 .high {
     color: salmon;
     font-weight: 600;
+}
+
+#add-margin {
+    margin-left: 15px;
+    font-size: 12px;
+}
+
+.card-content {
+    padding: 10px 0px !important;
+}
+
+.white-text {
+    padding: 20px !important;
 }

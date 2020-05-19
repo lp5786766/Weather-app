@@ -93,13 +93,14 @@ function getFutureWeather() {
     
       var futureCardCont = $("<div>");
       futureCardCont.attr("class", "card-content");
-      futureCardCont.append(futureDate, futureHumid, futureImg, futureTemp);
+      futureCardCont.append(futureDate, futureTemp, futureHumid, futureImg);
       // futureCard.append(futureHumid);
       // futureCard.append(futureImg);
       // futureCard.append(futureTemp);
 
       var fullCard = $("<div>");    
-      fullCard.attr("class", " col s12 m2 card blue-grey darken-1")
+      fullCard.attr("class", "col s12 m2 card blue-grey darken-1")
+      fullCard.attr("id", "add-margin");
       fullCard.append(futureCardCont)
       weatherView.append(fullCard);
       }
