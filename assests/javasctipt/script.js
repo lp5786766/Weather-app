@@ -20,16 +20,35 @@ searchBtn.on("click", function() {
   getFutureWeather();  
 });
 
+
+
+
 function saveCities() {
   var cities = JSON.parse(localStorage.getItem("cities"));
   if (cities == null) {
     cities = [];
-  }
-  //add new city to the array
-  cities.push(city);
-  //save the array in the local storage
-  localStorage.setItem("cities", JSON.stringify(cities)); 
-}
+    cities.push(city);
+    localStorage.setItem("cities", JSON.stringify(cities));
+  } 
+  
+  // if new city already exists in the array, don't add
+  cities.forEach(function(item) {
+    if (cities !== null && city === item) {
+      // alert("Double entry!");
+    } else {
+    
+      cities.push(city);
+      localStorage.setItem("cities", JSON.stringify(cities));
+      console.log(cities);
+    }
+      //add new city to the array
+  });
+}  
+
+
+
+
+
 
 function renderButtons() {
     //get the saved list of cities from local storage
@@ -64,51 +83,39 @@ function getFutureWeather() {
   $.ajax({
     url: url,
     method: 'GET',
-  }).then (function (response) {
-    // i = [3, 11, 19, 27, 35];
-    console.log(response);
-    // var info = response.list;
-    
+  }).then (function (response) {    
     createCard();
 
     function createCard() {
       //delete previous cards
-
+      $("#weather-forecast").empty();
       var futureCardsArr = response.list
-      console.log(futureCardsArr)
-
+      //create 5 cards
       //loop over array of days and get only 12 pm responses
       for (var i = 5; i < futureCardsArr.length; i = i + 8) {
-        console.log(i);
-        var weatherView = $("#weather-view");
+        
+        var weatherView = $("#weather-forecast");
     
-      var futureDate = $("<p>");
-      futureDate.text(moment(response.list[i].dt_txt).format("MM/D/YY"));
-      var futureHumid = $("<p>");
-      futureHumid.text("Humidity: " + response.list[i].main.humidity + "%");
-      var futureImg = $("<img>");
-      futureImg.attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
-      var futureTemp = $("<p>");
-      futureTemp.text("Temp: " + Math.round(response.list[i].main.temp * 1.8 - 459.67) + "°F");
-    
-      var futureCardCont = $("<div>");
-      futureCardCont.attr("class", "card-content");
-      futureCardCont.append(futureDate, futureTemp, futureHumid, futureImg);
-      // futureCard.append(futureHumid);
-      // futureCard.append(futureImg);
-      // futureCard.append(futureTemp);
-
-      var fullCard = $("<div>");    
-      fullCard.attr("class", "col s12 m2 card blue-grey darken-1")
-      fullCard.attr("id", "add-margin");
-      fullCard.append(futureCardCont)
-      weatherView.append(fullCard);
-      }
+        var futureDate = $("<p>");
+        futureDate.text(moment(response.list[i].dt_txt).format("MM/D/YY"));
+        var futureHumid = $("<p>");
+        futureHumid.text("Humidity: " + response.list[i].main.humidity + "%");
+        var futureImg = $("<img>");
+        futureImg.attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
+        var futureTemp = $("<p>");
+        futureTemp.text("t°: " + Math.round(response.list[i].main.temp * 1.8 - 459.67) + "°F" + " / " + Math.round(response.list[i].main.temp - 273.15) + "°C");
       
-    
-    }
-    //create 5 cards
+        var futureCardCont = $("<div>");
+        futureCardCont.attr("class", "card-content");
+        futureCardCont.append(futureDate, futureTemp, futureHumid, futureImg);
 
+        var fullCard = $("<div>");    
+        fullCard.attr("class", "col s12 m2 card blue-grey darken-1")
+        fullCard.attr("id", "add-margin");
+        fullCard.append(futureCardCont)
+        weatherView.append(fullCard);
+      }    
+    }
   });
 }
 
@@ -154,4 +161,3 @@ function getCurrentWeather() {
      }
   });  
 }
- 
