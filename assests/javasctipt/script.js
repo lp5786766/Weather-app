@@ -70,7 +70,18 @@ function getFutureWeather() {
     // var info = response.list;
     
     createCard();
+
     function createCard() {
+      //delete previous cards
+
+      var futureCardsArr = response.list
+      console.log(futureCardsArr)
+
+      //loop over array of days and get only 12 pm responses
+      for (var i = 5; i < futureCardsArr.length; i = i + 8) {
+        console.log(i);
+      }
+      
       var weatherView = $("#weather-view");
     
       var futureDate = $("<p>");
